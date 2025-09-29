@@ -63,5 +63,14 @@ Após essa etapa, você estará no prompt do gdb, onde poderá usar os comandos 
 ```bash
 (gdb) continue
 ``` 
+
 Ao seguir esses passos, você poderá identificar o erro de divisão por zero e entender o fluxo de execução do programa. O gdb é uma ferramenta poderosa que, quando utilizada corretamente, pode facilitar significativamente o processo de depuração e análise de código em C.
+
+Exemplo de saída ao tentar continuar a execução:
+
+> Program received signal SIGFPE, Arithmetic exception.0x0000555555555167 in main () at programa.c:5
+5           int c = a / b; // Erro: divisão por zero
+
+
+
 
