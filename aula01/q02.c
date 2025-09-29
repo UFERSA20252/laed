@@ -1,13 +1,12 @@
-#include<stdio.h>
-
-int main() {
+#include<stdio.h>//printf
+#include<stdlib.h>//atoi
+int main(int argc, char *argv[]) {
     int num1, num2, soma;
-    // printf("Digite o primeiro numero: ");
-    scanf("%d", &num1);
-    // printf("Digite o segundo numero: ");
-    scanf("%d", &num2);
+    num1 = atoi(argv[1]);
+    num2 = atoi(argv[2]);
     soma = num1 + num2;
-    // printf("A soma e: %d\n", soma);
-    printf("%d\n", soma);
+    printf("%d", soma);
     return 0;
 }
+
+

@@ -18,9 +18,6 @@ Nesta aula, vamos abordar os conceitos básicos de programação. Certifique-se 
 - Não hesite em consultar a documentação oficial das linguagens que está utilizando.
 - Utilize o Git para versionar seu código e facilitar o acompanhamento das alterações.
 
-
-Timeline:
-
 ### Criação do arquivo de instruções
 ###  Criação do Hello World em C.
 
@@ -82,3 +79,26 @@ int main() {
     return 0;
 }
 ```
+
+Além disso, será utilizado como padrão o uso do int main(int argc, char *argv[]) nas próximas questões, mesmo que os argumentos não sejam utilizados.
+
+Exemplo prático para a q02.c:
+```c
+#include<stdio.h>//printf
+#include<stdlib.h>//atoi
+int main(int argc, char *argv[]) {
+    int num1, num2, soma;
+    num1 = atoi(argv[1]);
+    num2 = atoi(argv[2]);
+    soma = num1 + num2;
+    printf("%d", soma);
+    return 0;
+}
+```
+
+Observe que os resultados são os mesmos, mas agora o programa lê os números passados como argumentos na linha de comando. Exemplo:
+```bash
+./soma 3 5
+8
+```
+Os valores de **argv[0]** é o nome do programa, argv[1] é o primeiro argumento (3) e **argv[2]** é o segundo argumento (5). Já o valor de argc é 3, pois inclui o nome do programa e os dois argumentos.
