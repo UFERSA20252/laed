@@ -157,6 +157,33 @@ Desta forma, o usuário pode especificar quantos números deseja calcular a méd
 15.00
 ```
 
-### Demais questões
+### Questão 04
 
-+ [q04.c](q04.c)
+*Crie um programa que encontre o maior elemento de um vetor de 10 números inteiros*
+
+Implementação no arquivo `q04.c`:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+int main(int argc, char *argv[]) {
+    if (argc != 11) {
+        printf("Erro: Informe 10 números inteiros como argumentos.\n");
+        return 1;
+    }
+    int numeros[10];
+    for (int i = 0; i < 10; i++) {
+        numeros[i] = atoi(argv[i + 1]);
+    }
+    int maior = numeros[0];
+    for (int i = 1; i < 10; i++) {
+        if (numeros[i] > maior) {
+            maior = numeros[i];
+        }
+    }
+    printf("%d", maior);
+    return 0;
+}
+```
+
+Observe que uma comparação é feita para garantir que exatamente 10 números sejam fornecidos como argumentos. O programa então encontra e imprime o maior número entre os fornecidos.
