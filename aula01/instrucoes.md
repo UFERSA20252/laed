@@ -35,5 +35,32 @@ Execução:
 ./main
 ```
 
+### Questão 02
 
+*Implemente um programa que leia dois números inteiros e imprima a soma deles.*
 
+Implementação no arquivo `q02.c`:
+
+```c
+#include<stdio.h>
+
+int main() {
+    int num1, num2, soma;
+    printf("Digite o primeiro numero: ");
+    scanf("%d", &num1);
+    printf("Digite o segundo numero: ");
+    scanf("%d", &num2);
+    soma = num1 + num2;
+    printf("A soma e: %d\n", soma);
+    return 0;
+}
+```
+
+Compilação:
+```bash
+gcc q02.c -o soma
+```
+Execução:
+```bash
+./soma
+```
