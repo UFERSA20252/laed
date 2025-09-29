@@ -1,4 +1,4 @@
-# Instruções para a Aula 01
+# Instruções para a Aula 01 (Branch `aula01`)
 
 Nesta aula, vamos abordar os conceitos básicos de programação. Certifique-se de ter o ambiente de desenvolvimento configurado corretamente antes de começar.
 
@@ -187,3 +187,11 @@ int main(int argc, char *argv[]) {
 ```
 
 Observe que uma comparação é feita para garantir que exatamente 10 números sejam fornecidos como argumentos. O programa então encontra e imprime o maior número entre os fornecidos.
+
+### Demais questões
+
+As demais questões seguirão o mesmo padrão de implementação, compilação e execução. Certifique-se de adaptar o código conforme necessário para atender aos requisitos específicos de cada questão.
+
++ [q05](q05.c)
++ [q06](q06.c)
++ [q07](q07.c)
