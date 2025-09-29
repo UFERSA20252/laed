@@ -102,3 +102,61 @@ Observe que os resultados são os mesmos, mas agora o programa lê os números p
 8
 ```
 Os valores de **argv[0]** é o nome do programa, argv[1] é o primeiro argumento (3) e **argv[2]** é o segundo argumento (5). Já o valor de argc é 3, pois inclui o nome do programa e os dois argumentos.
+
+### Questão 03
+*Desenvolva um programa que calcule a média de um vetor de 10 números inteiros*
+
+Implementação no arquivo `q03.c`:
+
+```c
+#include<stdio.h>//printf
+#include<stdlib.h>//atoi
+int main(int argc, char *argv[]) {
+    int vetor[10];
+    int i, soma = 0;
+    float media;
+    for(i = 0; i < 10; i++) {
+        vetor[i] = atoi(argv[i + 1]);
+        soma += vetor[i];
+    }
+    media = soma / 10.0;
+    printf("%.2f", media);
+    return 0;
+}
+```
+
+O printf com o valor de **%.2f** formata a média para exibir duas casas decimais. Do mesmo modo que na questão anterior, o programa lê os números passados como argumentos na linha de comando. Exemplo:
+```bash
+./media 5 10 15 20 25 30 35 40
+27.50
+```
+
+Observe que o valor de argc é 11, pois inclui o nome do programa e os 10 números inteiros. Dessa forma, o programa consegue identificar e processar os números corretamente, pois sabe que os argumentos começam a partir de argv[1] até argv[10].
+
+Uma modificação interessante seria permitir que o usuário informe a quantidade de números que deseja calcular a média. Isso pode ser feito ajustando o código para ler o primeiro argumento como a quantidade de números e os seguintes como os valores a serem somados. Como esse exemplo modificado da questão 03:
+
+```c
+#include<stdio.h>//printf
+#include<stdlib.h>//atoi
+int main(int argc, char *argv[]) {
+    int n, i, soma = 0;
+    float media;
+    n = atoi(argv[1]); // Lê a quantidade de números
+    for(i = 0; i < n; i++) {
+        soma += atoi(argv[i + 2]); // Lê os números a partir do segundo argumento
+    }
+    media = soma / (float)n; // Calcula a média
+    printf("%.2f", media); // Imprime a média com duas casas decimais
+    return 0;
+}
+```
+
+Desta forma, o usuário pode especificar quantos números deseja calcular a média, tornando o programa mais flexível. Exemplo de execução:
+```bash
+./media 5 10 15 20 25
+15.00
+```
+
+### Demais questões
+
++ [q04.c](q04.c)
