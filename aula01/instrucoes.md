@@ -64,3 +64,21 @@ Execução:
 ```bash
 ./soma
 ```
+
+Removendo mensagens de aviso para o programa. Esta maneira será a preferível para as próximas questões uma vez que torna mais facil a automação das avaliações e testes.
+
+```c
+#include<stdio.h>
+
+int main() {
+    int num1, num2, soma;
+    // printf("Digite o primeiro numero: ");
+    scanf("%d", &num1);
+    // printf("Digite o segundo numero: ");
+    scanf("%d", &num2);
+    soma = num1 + num2;
+    // printf("A soma e: %d\n", soma);
+    printf("%d\n", soma);
+    return 0;
+}
+```
