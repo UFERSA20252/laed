@@ -21,4 +21,19 @@ Nesta aula, vamos abordar os conceitos básicos de programação. Certifique-se 
 
 Timeline:
 
-+ Criação do arquivo de instruções
+### Criação do arquivo de instruções
+###  Criação do Hello World em C.
+
+Compilação:
+```bash
+cd aula01
+gcc aula01.c -o main
+```
+
+Execução:
+```bash
+./main
+```
+
+
+
