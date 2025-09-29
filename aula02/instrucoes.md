@@ -69,7 +69,8 @@ Ao seguir esses passos, você poderá identificar o erro de divisão por zero e 
 Exemplo de saída ao tentar continuar a execução:
 
 > Program received signal SIGFPE, Arithmetic exception.0x0000555555555167 in main () at programa.c:5
-5           int c = a / b; // Erro: divisão por zero
+
+> 5           int c = a / b; // Erro: divisão por zero
 
 
 
