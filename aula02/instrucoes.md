@@ -72,6 +72,44 @@ Exemplo de saída ao tentar continuar a execução:
 
 > 5           int c = a / b; // Erro: divisão por zero
 
-
-
-
+## Exemplo com passagem de parâmetros
+Considere o seguinte código em C (programa2.c) que contém um erro de acesso a memória inválida:
+```c
+#include <stdio.h>
+#include <stdlib.h>
+void func(int a, int b) {
+    int c = a / b; // Erro: divisão por zero
+    printf("Resultado: %d\n", c);
+}
+int main(int argc, char *argv[]) {
+    func(atoi(argv[1]), atoi(argv[2]));
+    return 0;
+}
+```
+Para depurar este código com **gdb**, siga os passos abaixo:
+1. Compile o código com a opção `-g` para incluir informações de depuração:
+```bash
+gcc programa2.c -o programa2 -g
+```
+2. Inicie o gdb com o programa compilado:
+```bash
+gdb programa2
+```
+Após essa etapa, você estará no prompt do gdb, onde poderá usar os comandos mencionados anteriormente para depurar o programa.
+3. Defina um ponto de interrupção na linha onde ocorre a divisão:
+```bash
+(gdb) break 5
+```
+4. Inicie a execução do programa:
+```bash
+(gdb) run 5 0
+```
+5. Quando o programa atingir o ponto de interrupção, inspecione o valor das variáveis:
+```bash
+(gdb) print a
+(gdb) print b
+```
+6. Continue a execução para observar o erro:
+```bash
+(gdb) continue
+```
