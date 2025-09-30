@@ -9,7 +9,7 @@
   - [1.3 Operações em Árvores](#13-operações-em-árvores)
   - [1.4 Implementação de Árvores Binárias em C](#14-implementação-de-árvores-binárias-em-c)
     - [Criação da Estrutura da Árvore Binária](#criação-da-estrutura-da-árvore-binária)
-    - [Elementos a serem inseridos:](#elementos-a-serem-inseridos)
+    - [Exercício: Elementos a serem inseridos:](#exercício-elementos-a-serem-inseridos)
     - [Criando structs relevantes para o `dado`](#criando-structs-relevantes-para-o-dado)
   - [Próximos passos](#próximos-passos)
 
@@ -70,7 +70,7 @@ int main() {
     return 0;
 }
 ```
-### Elementos a serem inseridos:
+### Exercício: Elementos a serem inseridos:
 
 Exercício: Insira mais nós na árvore e imprima seus valores para verificar a estrutura da árvore, navegue na estrutura da árvore para acessar os filhos esquerdo e direito do nó raiz.
 
@@ -161,6 +161,22 @@ int main() {
     return 0;
 }
 ```
+
+Exercício: Modifique a função main para criar mais nós com diferentes alunos e conectá-los na árvore. Crie uma árvore de alunos como a apresentada no diagrama abaixo:
+<div align="center">
+
+```mermaid
+graph TD
+    A(("Ana:10")) --> B(("Bruno:5"))
+    A(("Ana:8.3")) --> C(("Carla:9.7"))
+    B(("Bruno:5")) --> D(("Diego:3"))
+    B(("Bruno:5")) --> E(("Eva:7"))
+    C(("Carla:4")) --> F(("Felipe:5"))
+    C(("Carla:4")) --> G(("Gabriela:2"))
+```
+
+</div>
+
 ## Próximos passos
 
 Iremos implementar as funções abaixo:
