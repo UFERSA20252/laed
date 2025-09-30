@@ -188,5 +188,20 @@ No exemplo acima algo como isso logo abaixo deve ser exibido:
 
 Isso nos mostra que a função `fibonacci` foi chamada com o valor `n=5` e que essa chamada foi feita a partir da função `main`.
 
+Agora você pode continuar a execução do programa ou inspecionar mais detalhes conforme necessário.
+```bash
+(gdb) continue
+(gdb) backtrace
+```
 
+O resultado será algo como:
+```gdb
+#0  fibonacci (n=4) at fibonacci.c:5
+#1  0x00005555555551d1 in fibonacci (n=5) at fibonacci.c:8
+#2  0x0000555555555261 in main (argc=2, argv=0x7fffffffd4c8) at fibonacci.c:19
+```
+
+O que indica que o gdb está mostrando a pilha de chamadas, permitindo que você veja como o programa chegou ao ponto atual de execução. Dessa forma, você pode analisar o fluxo de execução e os valores das variáveis em cada nível da pilha. No nível mais alto, você vê a chamada original para `fibonacci(5)` feita a partir de `main`, e abaixo dela, as chamadas recursivas subsequentes.
+
+Ou seja, o **#0** é a chamada mais recente (fibonacci(4)), o **#1** é a chamada anterior (fibonacci(5)), e o **#2** é a chamada original feita a partir de `main`.
 
