@@ -179,7 +179,7 @@ graph TD
 
 ## Próximos passos
 
-Iremos implementar as funções abaixo:
+Por questões de simplicidade e praticidade, iremos utilizar como informação a ser armazenada na árvore apenas números inteiros. Os próximos passos são implementar as principais operações em árvores binárias:
 
 1. Inserção de nós na árvore
 2. Percurso em-ordem (in-order traversal)
