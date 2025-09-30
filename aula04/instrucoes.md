@@ -10,6 +10,7 @@
   - [1.4 Implementação de Árvores Binárias em C](#14-implementação-de-árvores-binárias-em-c)
     - [Criação da Estrutura da Árvore Binária](#criação-da-estrutura-da-árvore-binária)
     - [Elementos a serem inseridos:](#elementos-a-serem-inseridos)
+    - [Criando structs relevantes para o `dado`](#criando-structs-relevantes-para-o-dado)
   - [Próximos passos](#próximos-passos)
 
 ## 1.1 Estrutura de Dados da Árvore
@@ -94,6 +95,72 @@ graph TD
 
 </div>
 
+### Criando structs relevantes para o `dado`
+
+Os dados apresentados na árvore podem ser de qualquer tipo, mas para este exemplo, usaremos inteiros. Se você quiser armazenar outros tipos de dados, como strings ou estruturas mais complexas, você pode modificar a estrutura do nó para incluir esses tipos.
+
+```c
+typedef struct Node {
+    int data; // Pode ser modificado para outros tipos, como char*, float, etc.
+    struct Node* esq;
+    struct Node* dir;
+} Node;
+``` 
+
+Também podemos criar uma struct para armazenar dados mais complexos:
+
+```c
+typedef struct Aluno {
+    int id;
+    char nome[50];
+    float valor;
+} Aluno;
+
+typedef struct Node {
+    Aluno dado; // Agora o nó armazena uma struct Aluno
+    struct Node* esq;
+    struct Node* dir;
+} Node;
+```
+Desse forma, cada nó da árvore pode armazenar um conjunto de informações mais complexo. 
+
+Um exemplo de criação de um nó com a `struct Aluno`:
+
+```c
+Aluno criarAluno(int id, const char* nome, float valor) {
+    Aluno aluno;
+    aluno.id = id;
+    strncpy(aluno.nome, nome, sizeof(aluno.nome) - 1);
+    aluno.nome[sizeof(aluno.nome) - 1] = '\0'; 
+    aluno.valor = valor;
+    return aluno;
+}
+//Obs.: É necessário incluir a biblioteca string.h para usar a função strncpy
+```
+
+Feito isso, você pode criar nós da árvore que armazenam informações de alunos:
+
+```c
+Node* createNode(Aluno dado) {
+    Node* novo = (Node*)malloc(sizeof(Node));
+    novo->dado = dado;
+    novo->esq = NULL;
+    novo->dir = NULL;
+    return novo;
+}
+```
+Observe que o No agora armazena uma struct `Aluno` em vez de um simples inteiro.
+
+Observe como pode ficar a função main com a struct `Aluno`:
+
+```c
+int main() {
+    Aluno aluno1 = criarAluno(1, "Joao", 9.5);
+    Node* raiz = createNode(aluno1);
+    printf("Raiz: %s, ID: %d, Valor: %.2f\n", raiz->dado.nome, raiz->dado.id, raiz->dado.valor);
+    return 0;
+}
+```
 ## Próximos passos
 
 Iremos implementar as funções abaixo:
