@@ -234,6 +234,8 @@ Principais Comandos para Modificação dos Frames:
 - `info args`: Exibe os argumentos da função no quadro de pilha atual.
 - `set frame <n>`: Seleciona o quadro de pilha (stack frame) número n.
 
+Obs.: A diferença entre info locals e info args é que o primeiro mostra todas as variáveis locais (incluindo variáveis definidas dentro da função), enquanto o segundo mostra apenas os argumentos passados para a função.
+
 ### 4.1 Exemplo Prático de Navegação dos Frames
 
 Considere o algoritmo abaixo (`level0.c`):
