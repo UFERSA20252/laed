@@ -15,7 +15,7 @@
   - [4. Modificando os frames](#4-modificando-os-frames)
     - [4.1 Exemplo Prático de Navegação dos Frames](#41-exemplo-prático-de-navegação-dos-frames)
     - [4.2 Modificar para um frame específico](#42-modificar-para-um-frame-específico)
-    - [Modificando as variáveis do frame atual](#modificando-as-variáveis-do-frame-atual)
+    - [4.3 Modificando as variáveis do frame atual](#43-modificando-as-variáveis-do-frame-atual)
 
 Obs.: Para executar os exemplos, é necessário estar na pasta `aula02`.
 
@@ -323,7 +323,7 @@ Também é possível modificar diretamente para um frame específico usando o co
 ```
 Isso selecionará o frame 2, permitindo que você inspecione as variáveis e o contexto desse nível específico da pilha de chamadas. Você pode então usar `info locals` e `info args` para ver as variáveis locais e os argumentos da função nesse frame específico.
 
-### Modificando as variáveis do frame atual
+### 4.3 Modificando as variáveis do frame atual
 Além de navegar entre os frames, o gdb também permite modificar o valor das variáveis no frame atual. Isso pode ser útil para testar diferentes cenários sem precisar recompilar o código.
 - `set <variável> = <valor>`: Modifica o valor da variável especificada no frame atual.
 - `print <variável>` ou `p <variável>`: Exibe o valor da variável especificada (após modificação).
