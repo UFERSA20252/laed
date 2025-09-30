@@ -119,5 +119,74 @@ Após essa etapa, você estará no prompt do gdb, onde poderá usar os comandos 
 ```bash
 (gdb) continue
 ```
+### Inspeção da pilha de execução
+
+#### Comandos para Inspeção da Pilha de Execução
+- `backtrace` ou `bt`: Exibe a pilha de chamadas (call stack) atual.
+- `frame <n>`: Seleciona o quadro de pilha (stack frame) número n.
+- `info frame`: Exibe informações sobre o quadro de pilha atual.
+
+### Exemplo: Fibonacci com gdb
+
+Considere o seguinte código em C (fibonacci.c) que calcula o n-ésimo número de Fibonacci de forma recursiva:
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int fibonacci(int n) {
+    if (n <= 1)
+        return n;
+    else
+        return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+int main(int argc, char *argv[]) {
+    int n, i;
+    if (argc > 1) {
+        n = atoi(argv[1]);
+    } else {
+        printf("Digite o número de termos da sequência de Fibonacci: ");
+        scanf("%d", &n);
+    }
+    fibonacci(n); // Chamada para gerar a pilha de chamadas
+
+    return 0;
+}
+```
+Para depurar este código com **gdb**, siga os passos abaixo:
+1. Compile o código com a opção `-g` para incluir informações de depuração:
+```bash
+gcc fibonacci.c -o fibonacci -g
+```
+2. Inicie o gdb com o programa compilado:
+```bash
+gdb fibonacci
+```
+Após essa etapa, você estará no prompt do gdb, onde poderá usar os comandos mencionados anteriormente para depurar o programa.
+3. Defina o ponto de interrupção na função `fibonacci`:
+```bash
+(gdb) break fibonacci
+```
+4. Inicie a execução do programa com um argumento para `n`:
+```bash
+(gdb) run 5
+```
+5. Quando o programa atingir o ponto de interrupção, inspecione a pilha de chamadas:
+```bash
+(gdb) backtrace
+```
+
+Observe que a pilha de chamadas mostra todas as chamadas recursivas para a função `fibonacci`. Você pode navegar pelos quadros da pilha usando o comando `frame <n>` e inspecionar os valores dos parâmetros `n` em cada chamada.
+
+No exemplo acima algo como isso logo abaixo deve ser exibido:
+
+```gdb
+(gdb) backtrace
+#0  fibonacci (n=5) at fibonacci.c:5
+#1  0x0000555555555261 in main (argc=2,argv=0x7fffffffd4c8) at fibonacci.c:19
+```
+
+Isso nos mostra que a função `fibonacci` foi chamada com o valor `n=5` e que essa chamada foi feita a partir da função `main`.
+
 
 
