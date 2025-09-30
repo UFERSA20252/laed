@@ -1,5 +1,22 @@
 # Depuração de Código com gdb (aula02)
 
+## Sumário
+
+- [Depuração de Código com gdb (aula02)](#depuração-de-código-com-gdb-aula02)
+  - [Sumário](#sumário)
+  - [1. Análise da Estrutura de Dados Implícita: Depuração de Código.](#1-análise-da-estrutura-de-dados-implícita-depuração-de-código)
+    - [1.1 Comandos Básicos do gdb](#11-comandos-básicos-do-gdb)
+    - [1.2 Inspeção de Variáveis](#12-inspeção-de-variáveis)
+  - [2. Exemplo Prático](#2-exemplo-prático)
+  - [3. Exemplo com passagem de parâmetros](#3-exemplo-com-passagem-de-parâmetros)
+    - [3.1 Inspeção da pilha de execução](#31-inspeção-da-pilha-de-execução)
+      - [Comandos para Inspeção da Pilha de Execução](#comandos-para-inspeção-da-pilha-de-execução)
+    - [3.2 Exemplo: Fibonacci com gdb](#32-exemplo-fibonacci-com-gdb)
+  - [4. Modificando os frames](#4-modificando-os-frames)
+    - [4.1 Exemplo Prático de Navegação dos Frames](#41-exemplo-prático-de-navegação-dos-frames)
+    - [4.2 Modificar para um frame específico](#42-modificar-para-um-frame-específico)
+    - [Modificando as variáveis do frame atual](#modificando-as-variáveis-do-frame-atual)
+
 Obs.: Para executar os exemplos, é necessário estar na pasta `aula02`.
 
 ```bash
@@ -205,10 +222,161 @@ O que indica que o gdb está mostrando a pilha de chamadas, permitindo que você
 
 Ou seja, o **#0** é a chamada mais recente (fibonacci(4)), o **#1** é a chamada anterior (fibonacci(5)), e o **#2** é a chamada original feita a partir de `main`.
 
-### 3.3 Modificando os frames
+## 4. Modificando os frames
+
+É possível modificar o frame atual para inspecionar diferentes níveis da pilha de chamadas. Isso é útil para entender o contexto de cada chamada de função e os valores das variáveis em diferentes níveis da pilha.
+
+Principais Comandos para Modificação dos Frames:
+
 - `up`: Move para o quadro de pilha (stack frame) acima (chamador).
 - `down`: Move para o quadro de pilha (stack frame) abaixo (chamado).
 - `info locals`: Exibe todas as variáveis locais no quadro de pilha atual.
 - `info args`: Exibe os argumentos da função no quadro de pilha atual.
 - `set frame <n>`: Seleciona o quadro de pilha (stack frame) número n.
 
+### 4.1 Exemplo Prático de Navegação dos Frames
+
+Considere o algoritmo abaixo (`level0.c`):
+```c
+#include <stdio.h>
+
+void level0(){
+    printf("Nível 0 Alcançado\n");
+}
+
+void test(int level) {
+    if (level > 0)    {
+        int prevLevel = level - 1;
+        printf("Nível %d\n", level);
+        test(prevLevel);
+    } else {
+        level0();
+    }
+}
+
+int main() {
+    test(5);
+    return 0;
+}
+```
+
+Observe que a função `test` chama a si mesma recursivamente, diminuindo o valor de `level` até que atinja 0, momento em que chama a função `level0`.
+
+Vamos depurar esse código com o gdb e modificar os frames para inspecionar diferentes níveis da pilha de chamadas.
+1. Compile o código com a opção `-g` para incluir informações de depuração:
+```bash
+gcc test_frames.c -o test_frames -g
+```
+2. Inicie o gdb com o programa compilado:
+```bash
+gdb test_frames
+```
+Após essa etapa, você estará no prompt do gdb, onde poderá usar os comandos mencionados anteriormente para depurar o programa.
+3. Defina um ponto de interrupção na função `test`:
+```bash
+(gdb) break test
+```
+4. Inicie a execução do programa:
+```bash
+(gdb) run
+```
+5. Quando o programa atingir o ponto de interrupção, inspecione a pilha de chamadas:
+```bash
+(gdb) backtrace
+```
+6. Use o comando `up` para subir na pilha de chamadas e inspecionar o quadro de pilha acima:
+```bash
+(gdb) up
+```
+7. Use o comando `info locals` para ver as variáveis locais no quadro de pilha atual:
+```bash
+(gdb) info locals
+```
+
+> No caso atual não existem variáveis locais.
+
+
+8. Use o comando `down` para descer na pilha de chamadas e inspecionar o quadro de pilha abaixo:
+```bash
+(gdb) down
+```
+9. Continue a execução do programa ou inspecione mais detalhes conforme necessário:
+```bash
+(gdb) continue
+```
+
+Também é possível colocar um breakpoint na linha onde level0 é chamada, e quando o programa parar nesse ponto, usar o comando `backtrace` para ver a pilha de chamadas. Em seguida, você pode usar os comandos `up` e `down` para navegar pelos frames da pilha e inspecionar os valores das variáveis em cada nível.
+```bash
+(gdb) delete breakpoints
+(gdb) break level0
+(gdb) run
+(gdb) backtrace
+(gdb) up
+```
+
+Desta forma será possível analisar todo o fluxo dessa função recursiva até o momento em que o caso base é alcançado.
+
+### 4.2 Modificar para um frame específico
+Também é possível modificar diretamente para um frame específico usando o comando `frame <n>`, onde `<n>` é o número do frame desejado. Por exemplo, se você quiser ir diretamente para o frame 2, você pode usar:
+```bash
+(gdb) frame 2
+```
+Isso selecionará o frame 2, permitindo que você inspecione as variáveis e o contexto desse nível específico da pilha de chamadas. Você pode então usar `info locals` e `info args` para ver as variáveis locais e os argumentos da função nesse frame específico.
+
+### Modificando as variáveis do frame atual
+Além de navegar entre os frames, o gdb também permite modificar o valor das variáveis no frame atual. Isso pode ser útil para testar diferentes cenários sem precisar recompilar o código.
+- `set <variável> = <valor>`: Modifica o valor da variável especificada no frame atual.
+- `print <variável>` ou `p <variável>`: Exibe o valor da variável especificada (após modificação).
+- `info locals`: Exibe todas as variáveis locais no quadro de pilha atual (após modificação).
+
+Exemplo: Considere a função que calcula o fatorial de um número:
+```c
+#include <stdio.h>
+int fatorial(int n) {
+    if (n <= 1)
+        return 1;
+    else
+        return n * fatorial(n - 1);
+}
+int main() {
+    int num = 5;
+    int result = fatorial(num);
+    printf("Fatorial de %d é %d\n", num, result);
+    return 0;
+}
+```
+Para depurar este código com gdb e modificar o valor de `n` durante a execução, siga os passos abaixo:
+1. Compile o código com a opção `-g` para incluir
+2. informações de depuração:
+```bash
+gcc fatorial.c -o fatorial -g
+```
+2. Inicie o gdb com o programa compilado:
+```bash
+gdb fatorial
+```
+Após essa etapa, você estará no prompt do gdb, onde poderá usar os comandos mencionados anteriormente para depurar o programa.
+3. Defina um ponto de interrupção na função `fatorial`:
+```bash
+(gdb) break fatorial
+```
+4. Inicie a execução do programa:
+```bash
+(gdb) run
+```
+5. Quando o programa atingir o ponto de interrupção, inspecione o valor de `n`:
+```bash
+(gdb) print n
+```
+6. Modifique o valor de `n` para um valor diferente (por exemplo, 3):
+```bash
+(gdb) set n = 3
+```
+7. Continue a execução do programa:
+```bash
+(gdb) continue
+```
+8. Observe o resultado da execução com o valor modificado de `n`:
+```bash
+(gdb) print result
+```
