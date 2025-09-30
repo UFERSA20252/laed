@@ -6,11 +6,11 @@ Obs.: Para executar os exemplos, é necessário estar na pasta `aula02`.
 cd aula02
 ```
 
-## Análise da Estrutura de Dados Implícita: Depuração de Código.
+## 1. Análise da Estrutura de Dados Implícita: Depuração de Código.
 
 Nesta aula são apresentadas os principais comandos do depurador gdb, que é uma ferramenta essencial para a análise e depuração de programas em C. O gdb permite que os desenvolvedores inspecionem o estado do programa em execução, identifiquem erros e compreendam o fluxo de execução.
 
-### Comandos Básicos do gdb
+### 1.1 Comandos Básicos do gdb
 - `gdb <programa>`: Inicia o gdb com o programa especificado.
 - `run` ou `r`: Inicia a execução do programa. (Semelhante a executar `./programa` no terminal).
 - `break <linha>` ou `b <linha>`: Define um ponto de interrupção na linha especificada.
@@ -21,12 +21,12 @@ Nesta aula são apresentadas os principais comandos do depurador gdb, que é uma
 
 Os comandos acima são essenciais para navegar e controlar a execução do programa durante a depuração. Eles permitem que você inspecione o estado do programa em pontos específicos, facilitando a identificação de erros e a compreensão do fluxo de execução.
 
-### Inspeção de Variáveis
+### 1.2 Inspeção de Variáveis
 - `print <variável>` ou `p <variável>`: Exibe o valor da variável especificada.
 - `info locals`: Exibe todas as variáveis locais no escopo atual.
 - `info args`: Exibe os argumentos da função atual.
 
-## Exemplo Prático
+## 2. Exemplo Prático
 Considere o seguinte código em C (programa.c) que contém um erro de divisão por zero:
 ```c
 #include <stdio.h>
@@ -78,7 +78,7 @@ Exemplo de saída ao tentar continuar a execução:
 
 > 5           int c = a / b; // Erro: divisão por zero
 
-## Exemplo com passagem de parâmetros
+## 3. Exemplo com passagem de parâmetros
 Considere o seguinte código em C (programa2.c) que contém um erro de acesso a memória inválida:
 ```c
 #include <stdio.h>
@@ -119,14 +119,14 @@ Após essa etapa, você estará no prompt do gdb, onde poderá usar os comandos 
 ```bash
 (gdb) continue
 ```
-### Inspeção da pilha de execução
+### 3.1 Inspeção da pilha de execução
 
 #### Comandos para Inspeção da Pilha de Execução
 - `backtrace` ou `bt`: Exibe a pilha de chamadas (call stack) atual.
 - `frame <n>`: Seleciona o quadro de pilha (stack frame) número n.
 - `info frame`: Exibe informações sobre o quadro de pilha atual.
 
-### Exemplo: Fibonacci com gdb
+### 3.2 Exemplo: Fibonacci com gdb
 
 Considere o seguinte código em C (fibonacci.c) que calcula o n-ésimo número de Fibonacci de forma recursiva:
 ```c
@@ -204,4 +204,11 @@ O resultado será algo como:
 O que indica que o gdb está mostrando a pilha de chamadas, permitindo que você veja como o programa chegou ao ponto atual de execução. Dessa forma, você pode analisar o fluxo de execução e os valores das variáveis em cada nível da pilha. No nível mais alto, você vê a chamada original para `fibonacci(5)` feita a partir de `main`, e abaixo dela, as chamadas recursivas subsequentes.
 
 Ou seja, o **#0** é a chamada mais recente (fibonacci(4)), o **#1** é a chamada anterior (fibonacci(5)), e o **#2** é a chamada original feita a partir de `main`.
+
+### 3.3 Modificando os frames
+- `up`: Move para o quadro de pilha (stack frame) acima (chamador).
+- `down`: Move para o quadro de pilha (stack frame) abaixo (chamado).
+- `info locals`: Exibe todas as variáveis locais no quadro de pilha atual.
+- `info args`: Exibe os argumentos da função no quadro de pilha atual.
+- `set frame <n>`: Seleciona o quadro de pilha (stack frame) número n.
 
