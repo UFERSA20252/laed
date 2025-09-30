@@ -1,4 +1,10 @@
-# Depuração de Código com gdb
+# Depuração de Código com gdb (aula02)
+
+Obs.: Para executar os exemplos, é necessário estar na pasta `aula02`.
+
+```bash
+cd aula02
+```
 
 ## Análise da Estrutura de Dados Implícita: Depuração de Código.
 
@@ -113,3 +119,5 @@ Após essa etapa, você estará no prompt do gdb, onde poderá usar os comandos 
 ```bash
 (gdb) continue
 ```
+
+
