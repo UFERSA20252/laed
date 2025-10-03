@@ -402,11 +402,11 @@ Apresento finalmente a pilha de execução do fatorial(10) com um breakpoint na 
 
 ```bash
 $ gdb ./fatorial_somatorio
-(gdb) break fatorial_aux
+(gdb) break somatorio_aux
 Breakpoint 1 at 0x1145: file fatorial.c, line 7.
 (gdb) run
 Starting program: /home/user/fatorial
-Breakpoint 1, fatorial_aux (n=0, acc=3628800) at fatorial.c:7
+Breakpoint 1, somatorio_aux (n=0, acc=3628800) at fatorial.c:7
 7	    if (n == 0) return acc;
 (gdb) backtrace
 #0  somatorio_aux (n=0, acc=55) at fatorial.c:4
