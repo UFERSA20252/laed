@@ -277,7 +277,7 @@ $$
 
 
 Algoritmo do fatorial:
-$$ n! = n \times (n-1) \times (n-2) \times \ldots \times 1 $$
+$$ n! = n  (n-1)  (n-2)  \ldots  1 $$
 
 
 Algoritmo recursivo simples do somatório em C:
