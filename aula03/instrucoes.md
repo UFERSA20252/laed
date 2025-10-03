@@ -137,7 +137,7 @@ Tempo de execução: 0.006260 segundos
 $ ./fibonacci 40 
 Fibonacci(40) = 102334155
 Tempo de execução: 0.739129 segundos
-$ ./fibonacci 50
+$ ./fibonacci 45
 Fibonacci(45) = 1134903170
 Tempo de execução: 7.860224 segundos
 ```
