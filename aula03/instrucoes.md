@@ -265,4 +265,168 @@ int main() {
 ```
 Nesta implementação, usamos a função `pow` da biblioteca `<math.h>` para calcular $\varphi^n$ e a função `sqrt` para calcular $\sqrt{5}$. A função `round` é usada para arredondar o resultado para o inteiro mais próximo, já que a fórmula de Binet pode resultar em um valor decimal devido à precisão limitada dos cálculos de ponto flutuante.
 
+## Estudo de caso: Melhoria de performance para Algoritmos Recursivos Somatório e Fatorial
 
+Os algoritmos recursivos para somatório e fatorial também podem ser otimizados de maneira semelhante ao que foi feito com a sequência de Fibonacci. Vamos analisar cada um deles:
+
+Algoritmo do Somatório:
+
+$$
+S(n) = \sum_{i=1}^{n} i = 1 + 2 + 3 + \ldots + n
+$$
+
+
+Algoritmo do fatorial:
+$$
+n! = n \times (n-1) \times (n-2) \times \ldots \times 1
+$$
+
+
+Algoritmo recursivo simples do somatório em C:
+```c
+#include <stdio.h>
+
+int somatorio(int n) {
+    if (n == 1) return 1;
+    return n + somatorio(n - 1);
+}
+
+int fatorial(int n) {
+    if (n == 0) return 1; // Definição de 0! = 1
+    return n * fatorial(n - 1);
+}
+int main() {
+    int n = 5; // Exemplo de valor para n
+    printf("S(%d) = %d\n", n, somatorio(n));
+    printf("F(%d) = %d\n", n, fatorial(n));
+    return 0;
+}
+```
+
+Obviamente, esses algoritmos são simples e diretos, mas podem ser otimizados para melhorar a eficiência. Observe que ambos os algoritmos possuem complexidade de tempo O(n) e complexidade de espaço O(n) devido à profundidade da pilha de chamadas recursivas.
+
+Apesar disto, podemos perceber que ambos algoritmos utilizam o recurso da pilha de execução de forma ineficiente, pois cada chamada recursiva adiciona um novo quadro na pilha, o que pode levar a um estouro de pilha para valores grandes de n.
+
+Veja a situação do fatorial(10) no modo de depuração usando o gdb:
+
+```bash
+$ gcc -o fatorial -o fatorial.c -g
+$ gdb ./fatorial
+(gdb) break main
+Breakpoint 1 at 0x1149: file fatorial.c, line 15.
+(gdb) run
+Starting program: /home/user/fatorial
+Breakpoint 1, main () at fatorial.c:15
+15	    int n = 10; // Exemplo de valor para n
+(gdb) next
+16	    printf("S(%d) = %d\n", n, somatorio(n));
+(gdb) next
+S(10) = 55
+17	    printf("F(%d) = %d\n", n, fatorial(n));
+(gdb) next
+F(10) = 3628800
+18	    return 0;
+(gdb) next
+19	}
+(gdb) backtrace
+#0  main () at fatorial.c:19
+(gdb) quit
+```
+
+
+Para melhor compreensão, veja a pilha de execução do fatorial(10) com um breakpoint na função fatorial, mais precisamente no caso base:
+
+```bash
+$ gdb ./fatorial
+(gdb) break fatorial
+Breakpoint 1 at 0x1145: file fatorial.c, line 7.
+(gdb) run
+Starting program: /home/user/fatorial
+Breakpoint 1, fatorial (n=10) at fatorial.c:7
+7	    if (n == 0) return 1; // Definição de 0! = 1
+(gdb) backtrace
+#0  fatorial (n=10) at fatorial.c:7
+#1  0x0000000000401145 in fatorial (n=9) at fatorial.c:10
+#2  0x0000000000401145 in fatorial (n=8) at fatorial.c:10
+#3  0x0000000000401145 in fatorial (n=7) at fatorial.c:10
+#4  0x0000000000401145 in fatorial (n=6) at fatorial.c:10
+#5  0x0000000000401145 in fatorial (n=5) at fatorial.c:10
+#6  0x0000000000401145 in fatorial (n=4) at fatorial.c:10
+#7  0x0000000000401145 in fatorial (n=3) at fatorial.c:10
+#8  0x0000000000401145 in fatorial (n=2) at fatorial.c:10
+#9  0x0000000000401145 in fatorial (n=1) at fatorial.c:10
+#10 0x0000000000401145 in fatorial (n=0) at fatorial.c:7
+#11 0x0000000000401162 in main () at fatorial.c:17
+(gdb) quit
+``` 
+Observe que a pilha de execução cresce linearmente com o valor de n, o que pode levar a um estouro de pilha para valores grandes de n. Sempre que possível, devemos evitar o uso excessivo de recursão para evitar esse problema. 
+
+Uma solução para melhorar a eficiência desses algoritmos é utilizar uma recursão conhecida como recursão de cauda (tail recursion). Na recursão de cauda, a chamada recursiva é a última operação realizada na função, permitindo que o compilador otimize a chamada e reutilize o quadro da pilha atual, em vez de criar um novo. Isso reduz a profundidade da pilha e melhora a eficiência. Aqui está uma implementação otimizada do somatório e do fatorial usando recursão de cauda.
+
+### Recursão de Cauda para Somatório e Fatorial
+```c
+#include <stdio.h>
+int somatorio_aux(int n, int acc) {
+    if (n == 0) return acc;
+    return somatorio_aux(n - 1, acc + n);
+}
+int somatorio(int n) {
+    return somatorio_aux(n, 0);
+}
+```
+
+```c
+#include <stdio.h>
+int fatorial_aux(int n, int acc) {
+    if (n == 0) return acc;
+    return fatorial_aux(n - 1, acc * n);
+}
+int fatorial(int n) {
+    return fatorial_aux(n, 1);
+}
+
+Deste modo, a função `somatorio` e `fatorial` chamam funções auxiliares (`somatorio_aux` e `fatorial_aux`, respectivamente) que utilizam um acumulador (`acc`) para armazenar o resultado parcial. A chamada recursiva é a última operação realizada na função, permitindo a otimização da pilha. A função principal (`somatorio` e `fatorial`) inicializa o acumulador com o valor apropriado (0 para somatório e 1 para fatorial).
+
+```c
+int main() {
+    int n = 10; // Exemplo de valor para n
+    printf("S(%d) = %d\n", n, somatorio(n));
+    printf("F(%d) = %d\n", n, fatorial(n));
+    return 0;
+}
+```
+
+Duas considereções são importantes:
+1. Somatório_aux e fatorial_aux são intencioamente chamadas de forma diferente, usando os acumuladores acc. Isso é necessário para manter o estado do cálculo entre as chamadas recursivas.
+2. A pilha de execução não cresce linearmente com o valor de n, pois a chamada recursiva é a última operação realizada na função. Isso permite que o compilador otimize a chamada e reutilize o quadro da pilha atual, em vez de criar um novo.
+
+Apresento finalmente a pilha de execução do fatorial(10) com um breakpoint na função fatorial_aux, mais precisamente no caso base:
+
+```bash
+$ gdb ./fatorial_somatorio
+(gdb) break fatorial_aux
+Breakpoint 1 at 0x1145: file fatorial.c, line 7.
+(gdb) run
+Starting program: /home/user/fatorial
+Breakpoint 1, fatorial_aux (n=0, acc=3628800) at fatorial.c:7
+7	    if (n == 0) return acc;
+(gdb) backtrace
+#0  somatorio_aux (n=0, acc=55) at fatorial.c:4
+#1  0x000055555555517d in somatorio_aux (n=1, acc=54) at fatorial_somatorio.c:5
+#2  0x000055555555517d in somatorio_aux (n=2, acc=52) at fatorial_somatorio.c:5
+#3  0x000055555555517d in somatorio_aux (n=3, acc=49) at fatorial_somatorio.c:5
+#4  0x000055555555517d in somatorio_aux (n=4, acc=45) at fatorial_somatorio.c:5
+#5  0x000055555555517d in somatorio_aux (n=5, acc=40) at fatorial_somatorio.c:5
+#6  0x000055555555517d in somatorio_aux (n=6, acc=34) at fatorial_somatorio.c:5
+#7  0x000055555555517d in somatorio_aux (n=7, acc=27) at fatorial_somatorio.c:5
+#8  0x000055555555517d in somatorio_aux (n=8, acc=19) at fatorial_somatorio.c:5
+#9  0x000055555555517d in somatorio_aux (n=9, acc=10) at fatorial_somatorio.c:5
+#10 0x000055555555517d in somatorio_aux (n=10, acc=0) at fatorial_somatorio.c:5
+#11 0x000055555555519d in somatorio (n=10) at fatorial_somatorio.c:7
+#12 0x0000555555555211 in main () at fatorial.c:16
+(gdb) quit
+```
+
+Apesar da pilha de execução ainda crescer linearmente com o valor de n, o que pode levar a um estouro de pilha para valores grandes de n, a otimização da pilha é feita pelo compilador, que reutiliza o quadro da pilha atual, em vez de criar um novo. Isso reduz a profundidade da pilha e melhora a eficiência. Ou seja, Ao fechar cada quadro da pilha, o compilador pode reutilizar o espaço de memória, evitando o estouro de pilha.
+
+Isso é permitido pois o valor do accumulador é passado como argumento para a próxima chamada recursiva, mantendo o estado do cálculo entre as chamadas. Dessa forma, o compilador pode otimizar a chamada recursiva e reutilizar o quadro da pilha atual, em vez de criar um novo.
