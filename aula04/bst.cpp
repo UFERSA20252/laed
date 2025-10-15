@@ -19,8 +19,8 @@ Node* createNode(int data) {
 
 /** Protótipos das funções */
 Node* createNode(int);
-Node* insert(Node*, int);
-bool search(Node*, int);
+Node* inserir(Node*, int);
+bool busca(Node*, int);
 void liberarArvore(Node*);
 void emOrdem(Node*);
 void preOrdem(Node*);
@@ -29,24 +29,32 @@ int altura(Node*);
 void travessiaNivel(Node*);
 
 int main() {
-
+    struct Node* raiz = 0;
+    raiz = inserir(raiz, 20);
+    raiz = inserir(raiz, 10);
+    raiz = inserir(raiz, 23);
+    raiz = inserir(raiz, 42);
+    raiz = inserir(raiz, 15);
+    raiz = inserir(raiz, 31);
+    raiz = inserir(raiz, 17);
+    raiz = inserir(raiz, 19);
 }
 
 // Função para inserir um novo nó na árvore
-Node* insert(Node* raiz, int data) {
+Node* inserir(Node* raiz, int data) {
     if (raiz == NULL) {
         return createNode(data);
     }
     if (data < raiz->data) {
-        raiz->esq = insert(raiz->esq, data);
+        raiz->esq = inserir(raiz->esq, data);
     } else {
-        raiz->dir = insert(raiz->dir, data);
+        raiz->dir = inserir(raiz->dir, data);
     }
     return raiz;
 }
 
 // Função para buscar um valor na árvore
-bool search(Node* raiz, int data) {
+bool busca(Node* raiz, int data) {
     if (raiz == NULL) {
         return false;
     }
@@ -54,9 +62,9 @@ bool search(Node* raiz, int data) {
         return true;
     }
     if (data < raiz->data) {
-        return search(raiz->esq, data);
+        return busca(raiz->esq, data);
     } else {
-        return search(raiz->dir, data);
+        return busca(raiz->dir, data);
     }
 }
 
