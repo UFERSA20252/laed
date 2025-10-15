@@ -13,7 +13,8 @@ typedef struct Fila{
     Node *N[100];
     int fim = 0;
     int ini = 0;
-    int tam = 100;
+    int tam = 0;
+    int cap = 100;
 }fila;
 // Função para criar um novo nó
 Node* createNode(int data) {
@@ -32,25 +33,22 @@ void emOrdem(Node*);
 void preOrdem(Node*);
 void fimOrdem(Node*);
 int altura(Node*);
-void inserir(fila*, Node *no);
-Node* remover(fila*, Node *no);
+void inserirFila(fila*, Node *no);
+Node* removerFila(fila*, Node *no);
+Node* remove(Node*, int);
 void travessiaNivel(Node*);
 
 int main() {
     struct Node* raiz = 0;
+    raiz = inserir(raiz, 30);
     raiz = inserir(raiz, 20);
+    raiz = inserir(raiz, 40);
     raiz = inserir(raiz, 10);
-    raiz = inserir(raiz, 23);
-    raiz = inserir(raiz, 42);
-    raiz = inserir(raiz, 15);
-    raiz = inserir(raiz, 31);
-    raiz = inserir(raiz, 17);
-    raiz = inserir(raiz, 19);
-
-    Fila *f = (Fila*)malloc(sizeof(Fila));
-    inserir(f, raiz);
-    inserir(f, raiz->dir);
-    inserir(f, raiz->esq);
+    raiz = inserir(raiz, 25);
+    raiz = inserir(raiz, 35);
+    raiz = inserir(raiz, 50);
+    raiz = inserir(raiz, 5);
+    travessiaNivel(raiz);
 }
 
 void inserir(fila, Node *no);
@@ -128,14 +126,68 @@ int altura(Node* raiz) {
     return 1 + maior(alturaEsq, alturaDir);
 }
 
-void inserir(Fila *f, Node *N){
+void inserirFila(Fila *f, Node *N){
     f->tam++;   
     f->N[f->fim++] = N;
 }
 
-Node* remover(fila *f){
+Node* removerFila(fila *f){
     if(f->ini == f->fim)
-        return;
+        return 0;
     f->tam--;
     return f->N[f->ini++];
+}
+
+void travessiaNivel(Node* raiz){
+    Fila *f = (Fila*)malloc(sizeof(fila));
+    inserirFila(f, raiz);
+    Node *n;
+    while(f->fim != f->ini){
+        n = removerFila(f);
+        printf("%d ", n->data);
+        if(n->esq != 0){
+            inserirFila(f, n->esq);
+        }
+        if(n->dir != 0){
+            inserirFila(f, n->dir);
+        }
+    }
+    printf("\n");
+}
+
+Node* remove(Node* raiz, int v){
+    Node* aux;
+    if(raiz == 0){
+        return raiz;
+    }
+    if(v < raiz->data){
+        raiz->esq = remove(raiz->esq, v);
+    } else if(v > raiz->data){
+        raiz->dir = remove(raiz->dir, v);
+    } else {
+        if(raiz->dir == 0 && raiz->esq == 0){
+            free(raiz);
+            return 0;
+        }
+        if(raiz->dir == 0 && raiz->esq != 0){
+            aux = raiz->esq;
+            free(raiz);
+            return aux;
+        }
+        if(raiz->dir != 0 && raiz->esq == 0){
+            aux = raiz->dir;
+            free(raiz);
+            return aux;
+        }
+        // if(raiz->dir != 0 && raiz->esq != 0){
+        //     aux = raiz->esq;
+        //     while(aux->dir != 0){
+        //         aux = aux->dir;
+        //     }
+        //     raiz->data = aux->data;
+        //     aux->data = v;
+        //     raiz->esq = remove(raiz->esq, v);
+        // }
+    }
+    return raiz;
 }
