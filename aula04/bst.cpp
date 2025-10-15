@@ -17,6 +17,12 @@ Node* createNode(int data) {
     return novo;
 }
 
+/** Protótipos das funções */
+Node* createNode(int);
+Node* insert(Node*, int);
+bool search(Node*, int);
+void liberarArvore(Node*);
+
 int main() {
     Node* raiz = createNode(10);
     printf("Raiz: %d\n", raiz->data);
