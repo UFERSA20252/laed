@@ -48,17 +48,10 @@ int main() {
     raiz = inserir(raiz, 31);
     raiz = inserir(raiz, 17);
     raiz = inserir(raiz, 19);
-
-    Node *root = (Node*)malloc(sizeof(Node));
-    root[0].data = 10;
-    root[0].dir = 0;
-    root[0].esq = 0;
-
-    root[1].data = 20;
-    root[2].data = 30
-
 }
 
+void inserir(fila, Node *no);
+Node* remover(fila, Node *no);
 // Função para inserir um novo nó na árvore
 Node* inserir(Node* raiz, int data) {
     if (raiz == NULL) {
