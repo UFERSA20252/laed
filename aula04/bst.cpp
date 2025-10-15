@@ -26,6 +26,7 @@ void emOrdem(Node*);
 void preOrdem(Node*);
 void posOrdem(Node*);
 int altura(Node*);
+void travessiaNivel(Node*);
 
 int main() {
 
