@@ -56,7 +56,6 @@ Node* createNode(int data) {
     Node* novo = (Node*)malloc(sizeof(Node));
     novo->data = data;
     novo->esq = NULL;
-    novo->right = NULL;
     return novo;
 }
 ```
