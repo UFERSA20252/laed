@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+typedef struct Fila{
+    Node *N[100];
+    int pos = 0;
+    int capacidade = 100;
+}fila;
+
+
+
 // Definição da estrutura do nó da árvore
 typedef struct Node {
     int data;
@@ -26,6 +34,8 @@ void emOrdem(Node*);
 void preOrdem(Node*);
 void posOrdem(Node*);
 int altura(Node*);
+void inserir(fila, Node *no);
+Node* remover(fila, Node *no);
 void travessiaNivel(Node*);
 
 int main() {
@@ -38,6 +48,15 @@ int main() {
     raiz = inserir(raiz, 31);
     raiz = inserir(raiz, 17);
     raiz = inserir(raiz, 19);
+
+    Node *root = (Node*)malloc(sizeof(Node));
+    root[0].data = 10;
+    root[0].dir = 0;
+    root[0].esq = 0;
+
+    root[1].data = 20;
+    root[2].data = 30
+
 }
 
 // Função para inserir um novo nó na árvore
