@@ -22,11 +22,12 @@ Node* createNode(int);
 Node* insert(Node*, int);
 bool search(Node*, int);
 void liberarArvore(Node*);
+void emOrdem(Node*);
+void preOrdem(Node*);
+void posOrdem(Node*);
 
 int main() {
-    Node* raiz = createNode(10);
-    printf("Raiz: %d\n", raiz->data);
-    return 0;
+    
 }
 
 // Função para inserir um novo nó na árvore
@@ -63,5 +64,29 @@ void liberarArvore(Node* raiz) {
         liberarArvore(raiz->esq);
         liberarArvore(raiz->dir);
         free(raiz);
+    }
+}
+
+void emOrdem(Node* raiz) {
+    if (raiz != NULL) {
+        emOrdem(raiz->esq);
+        printf("%d ", raiz->data);
+        emOrdem(raiz->dir);
+    }
+}
+
+void preOrdem(Node* raiz) {
+    if (raiz != NULL) {
+        printf("%d ", raiz->data);
+        preOrdem(raiz->esq);
+        preOrdem(raiz->dir);
+    }
+}
+
+void posOrdem(Node* raiz) {
+    if (raiz != NULL) {
+        posOrdem(raiz->esq);
+        posOrdem(raiz->dir);
+        printf("%d ", raiz->data);
     }
 }
