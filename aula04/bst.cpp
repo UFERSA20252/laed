@@ -2,11 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct Fila{
-    Node *N[100];
-    int pos = 0;
-    int capacidade = 100;
-}fila;
 
 
 
@@ -17,6 +12,12 @@ typedef struct Node {
     struct Node* dir;
 } Node;
 
+typedef struct Fila{
+    Node *N[100];
+    int pos = 0;
+    int ini = 0;
+    int tam = 100;
+}fila;
 // Função para criar um novo nó
 Node* createNode(int data) {
     Node* novo = (Node*)malloc(sizeof(Node));
@@ -34,8 +35,8 @@ void emOrdem(Node*);
 void preOrdem(Node*);
 void posOrdem(Node*);
 int altura(Node*);
-void inserir(fila, Node *no);
-Node* remover(fila, Node *no);
+void inserir(fila*, Node *no);
+Node* remover(fila*, Node *no);
 void travessiaNivel(Node*);
 
 int main() {
@@ -48,6 +49,11 @@ int main() {
     raiz = inserir(raiz, 31);
     raiz = inserir(raiz, 17);
     raiz = inserir(raiz, 19);
+
+    Fila *f = (Fila*)malloc(sizeof(Fila));
+    inserir(f, raiz);
+    inserir(f, raiz->dir);
+    inserir(f, raiz->esq);
 }
 
 void inserir(fila, Node *no);
@@ -123,4 +129,14 @@ int altura(Node* raiz) {
     int alturaEsq = altura(raiz->esq);
     int alturaDir = altura(raiz->dir);
     return 1 + maior(alturaEsq, alturaDir);
+}
+
+void inserir(Fila *f, Node *N){
+    f->tam++;   
+    f->N[f->pos++] = N;
+}
+
+Node* remover(fila *f){
+    f->tam--;
+    return f->N[f->ini++];
 }
