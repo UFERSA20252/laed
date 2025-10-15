@@ -25,9 +25,10 @@ void liberarArvore(Node*);
 void emOrdem(Node*);
 void preOrdem(Node*);
 void posOrdem(Node*);
+int altura(Node*);
 
 int main() {
-    
+
 }
 
 // Função para inserir um novo nó na árvore
@@ -89,4 +90,16 @@ void posOrdem(Node* raiz) {
         posOrdem(raiz->dir);
         printf("%d ", raiz->data);
     }
+}
+
+int maior(int a, int b) {
+    return (a > b) ? a : b;
+}
+int altura(Node* raiz) {
+    if (raiz == NULL) {
+        return -1; // Altura de árvore vazia é -1
+    }
+    int alturaEsq = altura(raiz->esq);
+    int alturaDir = altura(raiz->dir);
+    return 1 + maior(alturaEsq, alturaDir);
 }
