@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-
-
-
 // Definição da estrutura do nó da árvore
 typedef struct Node {
     int data;
@@ -14,7 +11,7 @@ typedef struct Node {
 
 typedef struct Fila{
     Node *N[100];
-    int pos = 0;
+    int fim = 0;
     int ini = 0;
     int tam = 100;
 }fila;
@@ -26,14 +23,14 @@ Node* createNode(int data) {
     return novo;
 }
 
-/** Protótipos das funções */
+/** Protótifim das funções */
 Node* createNode(int);
 Node* inserir(Node*, int);
 bool busca(Node*, int);
 void liberarArvore(Node*);
 void emOrdem(Node*);
 void preOrdem(Node*);
-void posOrdem(Node*);
+void fimOrdem(Node*);
 int altura(Node*);
 void inserir(fila*, Node *no);
 Node* remover(fila*, Node *no);
@@ -111,10 +108,10 @@ void preOrdem(Node* raiz) {
     }
 }
 
-void posOrdem(Node* raiz) {
+void fimOrdem(Node* raiz) {
     if (raiz != NULL) {
-        posOrdem(raiz->esq);
-        posOrdem(raiz->dir);
+        fimOrdem(raiz->esq);
+        fimOrdem(raiz->dir);
         printf("%d ", raiz->data);
     }
 }
@@ -133,10 +130,12 @@ int altura(Node* raiz) {
 
 void inserir(Fila *f, Node *N){
     f->tam++;   
-    f->N[f->pos++] = N;
+    f->N[f->fim++] = N;
 }
 
 Node* remover(fila *f){
+    if(f->ini == f->fim)
+        return;
     f->tam--;
     return f->N[f->ini++];
 }
